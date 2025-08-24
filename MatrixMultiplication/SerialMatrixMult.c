@@ -62,8 +62,7 @@ int main(int argc, char **argv)
     double elapsed = (end.tv_sec - start.tv_sec) +
                      (end.tv_nsec - start.tv_nsec) / 1e9;
 
-    printf("Execution time: %.6f seconds\n", elapsed);
-    // printMatrix(matrixSize, result);
+    printf("%.6f,", elapsed);
     free(matrixA);
     free(matrixB);
     free(result);
