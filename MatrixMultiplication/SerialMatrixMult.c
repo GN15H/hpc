@@ -63,6 +63,7 @@ int main(int argc, char **argv)
                      (end.tv_nsec - start.tv_nsec) / 1e9;
 
     printf("%.6f,", elapsed);
+    // printMatrix(matrixSize, result);
     free(matrixA);
     free(matrixB);
     free(result);

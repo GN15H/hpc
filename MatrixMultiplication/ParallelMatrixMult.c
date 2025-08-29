@@ -102,8 +102,10 @@ void parallel_multiplyMatrices(unsigned int threadAmount, int size, int (*A)[siz
 
 void* mattr_wrapper(void* data){
     const struct mattrmult_data* args = (struct mattrmult_data*) data;
-    matrixSegmentCalculation(args->size, args->pos, args->amount, (int(*)[args->size]) args->A,
-        (int(*)[args->size]) args->B,(int(*)[args->size]) args->result);
+    for(int i=0; i<args->amount; i++)
+        calculateMatrixCell(args->size, (args->pos+i)/args->size, (args->pos+i)%args->size, args->A, args->B, args->result);
+    // matrixSegmentCalculation(args->size, args->pos, args->amount, (int(*)[args->size]) args->A,
+    //     (int(*)[args->size]) args->B,(int(*)[args->size]) args->result);
     return NULL;
 }
 
