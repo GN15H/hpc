@@ -19,11 +19,12 @@ void printMatrix(int size, int matrix[size][size]);
 void fillMatrixWithRandoms(int size, int matrix[size][size]);
 void calculateMatrixCell(int size, int row, int col, int A[size][size], int B[size][size], int result[size][size]);
 void matrixSegmentCalculation(int size, int pos, int amount, int A[size][size], int B[size][size], int result[size][size]);
-void parallel_multiplyMatrices(unsigned int threadAmount, int size, int (*A)[size], int (*B)[size], int (*resultMatrix)[size]);
+void parallel_multiplyMatrices(unsigned int threadAmount, struct mattrmult_data data[threadAmount], int size, int (*A)[size], int (*B)[size], int (*resultMatrix)[size]);
 void* mattr_wrapper(void* data);
 
 int main(int argc, char **argv){
     srand(time(NULL));
+    // srand(0);
     struct timespec start, end;
 
     if (argc < 3){
@@ -47,11 +48,20 @@ int main(int argc, char **argv){
         return 1;
     }
 
+    struct mattrmult_data data[threadAmount];
+    for(int i=0; i<threadAmount; i++){
+        data[i].amount=(matrixSize*matrixSize)/threadAmount;
+        data[i].size=matrixSize;
+        data[i].A=(void*) matrixA;
+        data[i].B=(void*) matrixB; 
+        data[i].result=(void*) result;
+    }
+
     fillMatrixWithRandoms(matrixSize, matrixA);
     fillMatrixWithRandoms(matrixSize, matrixB);
 
     clock_gettime(CLOCK_MONOTONIC, &start);
-    parallel_multiplyMatrices(threadAmount,matrixSize, matrixA, matrixB, result);
+    parallel_multiplyMatrices(threadAmount,data, matrixSize, matrixA, matrixB, result);
     clock_gettime(CLOCK_MONOTONIC, &end);
 
     double elapsed = (end.tv_sec - start.tv_sec) + (end.tv_nsec - start.tv_nsec) / 1e9;
@@ -70,21 +80,22 @@ void fillMatrixWithRandoms(int size, int matrix[size][size]){
             matrix[i][j] = rand() % MAX_VALUE;
 }
 
-void parallel_multiplyMatrices(unsigned int threadAmount, int size, int (*A)[size], int (*B)[size], int (*resultMatrix)[size]){
+void parallel_multiplyMatrices(unsigned int threadAmount, struct mattrmult_data data[threadAmount], int size, int (*A)[size], int (*B)[size], int (*resultMatrix)[size]){
+    // struct mattrmult_data data[threadAmount];
     pthread_t threadList[threadAmount];
     long long int rvalues[threadAmount];
 
-    struct mattrmult_data data;
-    data.amount=(size*size)/threadAmount;
-    data.size=size;
-    data.A=(void*) A;
-    data.B=(void*) B; 
-    data.result=(void*) resultMatrix;
+    // struct mattrmult_data data;
+    // data.amount=(size*size)/threadAmount;
+    // data.size=size;
+    // data.A=(void*) A;
+    // data.B=(void*) B; 
+    // data.result=(void*) resultMatrix;
 
     int th_err;
     for(int i=0; i<threadAmount; i++){
-        data.pos=i*data.amount;
-        th_err = pthread_create(&(threadList[i]), NULL, mattr_wrapper, (void*) &data);
+        data[i].pos=i*data[i].amount;
+        th_err = pthread_create(&(threadList[i]), NULL, mattr_wrapper, (void*) &data[i]);
         if(th_err){
             printf("Error creating thread");
             exit(0);
@@ -125,7 +136,7 @@ void calculateMatrixCell(int size, int row, int col, int A[size][size], int B[si
 void printMatrix(int size, int matrix[size][size]){
     for (int i = 0; i < size; i++){
         for (int j = 0; j < size; j++){
-            printf("%i ,", matrix[i][j]);
+            printf("%i, ", matrix[i][j]);
         }
         printf("\n");
     }

@@ -23,7 +23,7 @@ void printMatrix(int size, int matrix[size][size])
     {
         for (int j = 0; j < size; j++)
         {
-            printf("%i ,", matrix[i][j]);
+            printf("%i, ", matrix[i][j]);
         }
         printf("\n");
     }
@@ -44,6 +44,7 @@ int main(int argc, char **argv)
 {
     struct timespec start, end;
     srand(time(NULL));
+    // srand(0);
     int matrixSize = DEFAULT_SIZE;
     if (argc > 1 && atoi(argv[1]))
         matrixSize = atoi(argv[1]);
