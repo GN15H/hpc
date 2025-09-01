@@ -1,6 +1,6 @@
 .vscode/
 *.exe
 *.txt
-*.sh
+# *.sh
 *.bat
-*.csv
+# *.csv
