@@ -23,8 +23,8 @@ void parallel_multiplyMatrices(unsigned int threadAmount, struct mattrmult_data 
 void* mattr_wrapper(void* data);
 
 int main(int argc, char **argv){
-    srand(time(NULL));
-    // srand(0);
+    // srand(time(NULL));
+    srand(0);
     struct timespec start, end;
 
     if (argc < 3){
@@ -67,7 +67,7 @@ int main(int argc, char **argv){
     double elapsed = (end.tv_sec - start.tv_sec) + (end.tv_nsec - start.tv_nsec) / 1e9;
 
     printf("%.6f,", elapsed);
-    // printMatrix(matrixSize, result);
+    printMatrix(matrixSize, result);
     free(matrixA);
     free(matrixB);
     free(result);
@@ -102,8 +102,10 @@ void parallel_multiplyMatrices(unsigned int threadAmount, struct mattrmult_data 
         }
     }
 
-    if((size*size)%threadAmount)
-        calculateMatrixCell(size, size-1, size-1, A, B, resultMatrix);
+    if((size*size)%threadAmount){
+        for(int i=0; i<threadAmount; i++)
+            calculateMatrixCell(size, size-1, size-1-i,A, B, resultMatrix);
+    }
 
     for(int i=0; i<threadAmount; i++){
         pthread_join(threadList[i], (void **) &(rvalues[i]));
