@@ -2,6 +2,7 @@
 #include<time.h>
 #include<stdio.h>
 #include<pthread.h>
+#include<stdint.h>
 
 struct thread_info {   
     pthread_t thread_id;
@@ -52,7 +53,6 @@ int main(int argc, char** argv){
 
     double elapsed = (end.tv_sec - start.tv_sec) + (end.tv_nsec - start.tv_nsec) / 1e9;
     printf("%.6f,\n", elapsed);
-    printf("uy pues a ver %.10lf", pi_approx);
 
     return 0;
 }
@@ -61,9 +61,10 @@ int main(int argc, char** argv){
 void* approx_pi(void* data){
     struct thread_info* info = data; 
     double x,y;
+    unsigned int seed = time(NULL) ^ (uintptr_t)pthread_self(); // unique seed
     for(int i=0; i<info->tries; ++i){
-        x = rand()*info->factor;
-        y = rand()*info->factor;
+        x = rand_r(&seed)*info->factor;
+        y = rand_r(&seed)*info->factor;
         if(x*x + y*y < 1.0)
             ++(info->hits);
     }
