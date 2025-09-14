@@ -82,17 +82,14 @@ int main(int argc, char** argv){
     clock_gettime(CLOCK_MONOTONIC, &end);
 
     double elapsed = (end.tv_sec - start.tv_sec) + (end.tv_nsec - start.tv_nsec) / 1e9;
-    printf("%.6f,", elapsed);
+    printf("%.6f,\n", elapsed);
+    printf("%.10lf",pi_approx);
     shm_unlink("/shm_data_dartboard");
     shm_unlink("/pinfo_data");
 
     return 0;
 }
 
-void* approx_pi(void* data) {
-    struct process_info* info = data;
-    return NULL;
-}
 
 void shm_variables_init(int* fd, struct shm_data** shmp){
   *fd = shm_open("/shm_data_dartboard", O_CREAT | O_RDWR | O_EXCL, 0600);
