@@ -24,14 +24,14 @@ int main(int argc, char** argv){
         if(x-(cos(theta)*(needle/2)) < 0.0 || x+(cos(theta)*(needle/2)) > floor)
             ++crosses;
     }
+    const double pi_approx = (needle*((double)n))/(((double)crosses)*floor);
     clock_gettime(CLOCK_MONOTONIC, &end);
 
     double elapsed = (end.tv_sec - start.tv_sec) +
                      (end.tv_nsec - start.tv_nsec) / 1e9;
     printf("%.6f,", elapsed);
 
-    const double pi_approx = (needle*((double)n))/(((double)crosses)*floor);
-    printf("%.10lf", pi_approx);
+    // printf("%.10lf", pi_approx);
 
 
 

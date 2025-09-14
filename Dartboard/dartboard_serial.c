@@ -24,7 +24,7 @@ int main(int argc, char** argv){
     double elapsed = (end.tv_sec - start.tv_sec) +
                      (end.tv_nsec - start.tv_nsec) / 1e9;
     printf("%.6f,", elapsed);
-    printf("%.10lf", pi_approx);
+    // printf("%.10lf", pi_approx);
 
     return 0;
 }

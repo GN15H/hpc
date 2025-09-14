@@ -87,8 +87,8 @@ int main(int argc, char** argv){
     clock_gettime(CLOCK_MONOTONIC, &end);
 
     double elapsed = (end.tv_sec - start.tv_sec) + (end.tv_nsec - start.tv_nsec) / 1e9;
-    printf("%.6f,\n", elapsed);
-    printf("%.10lf",pi_approx);
+    printf("%.6f,", elapsed);
+    // printf("%.10lf",pi_approx);
     shm_unlink("/shm_data_needles");
     shm_unlink("/pinfo_data_needles");
 
