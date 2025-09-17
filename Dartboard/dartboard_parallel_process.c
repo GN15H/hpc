@@ -16,7 +16,8 @@ struct process_info {
     long long int hits;
     char padding[56];
     //padding para evitar false sharing
-};
+}__attribute__((aligned(64)));
+//;
 
 struct shm_data{
   int counter;

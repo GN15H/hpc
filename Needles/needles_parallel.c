@@ -16,7 +16,7 @@ struct thread_info {
     double floor;
     double needle;
     char padding[8];
-};
+}__attribute__((aligned(64)));
 
 void* approx_pi(void* data);
 
