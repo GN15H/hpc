@@ -9,7 +9,7 @@ SERIAL="./needles_serial"
 SERIALO3="./needles_serialO3"
 
 # Valores de precision
-PRECISIONS=(1000 10000 100000 1000000 10000000)
+PRECISIONS=(10000 1000000 100000000 10000000000)
 
 # Número de repeticiones
 REPS=10
