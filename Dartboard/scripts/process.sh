@@ -9,7 +9,7 @@ PROCESS="./dartboard_parallel_process"
 PROCESSO3="./dartboard_parallel_processO3"
 
 # Valores de precision
-PRECISIONS=(1000 10000 100000 100000 10000000)
+PRECISIONS=(10000 1000000 100000000 10000000000)
 
 # Valores de procesos
 PROCESSES=(4 6 8 10 12 14)
