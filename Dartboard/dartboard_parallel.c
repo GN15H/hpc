@@ -10,8 +10,6 @@ struct thread_info {
     long long int tries;
     double factor;
     char padding[32];
-    //nota notosa poner aca basura ke ocupe el resto de 64 bytes para ke el cache coja este pedazo completo
-    //y los diferentes cores no tengan ke hacer sincronización de datos
 }__attribute__((aligned(64)));
 
 void* approx_pi(void* data);
