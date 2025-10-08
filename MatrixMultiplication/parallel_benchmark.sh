@@ -14,7 +14,7 @@ echo "thread,repetition,matrix_size,output" >$OUTPUT_FILE
 MATRIX_SIZES=(10 100 200 400 800 1600 3200)
 
 # Cantidad de hilos a probar (1 a 10)
-THREAD_COUNTS=(1 2 3 4 5 6 7 8 9 10)
+THREAD_COUNTS=(2 4 8 12 16)
 
 # Cantidad de repeticiones por configuración
 REPETITIONS=10
@@ -64,4 +64,3 @@ echo "- Tamaños de matriz: ${MATRIX_SIZES[*]}"
 echo "- Cantidad de hilos: ${THREAD_COUNTS[*]}"
 echo "- Repeticiones por configuración: $REPETITIONS"
 echo "- Total de ejecuciones: $total_executions"
-EOF
