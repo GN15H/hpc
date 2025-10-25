@@ -24,7 +24,7 @@ int main(int argc, char** argv){
     double x, y;
     void *res;
 
-    const unsigned long long int n = atoi(argv[1]);
+    const unsigned long long int n = atoll(argv[1]);
     const int threads = atoi(argv[2]);
     struct thread_info tinfo[threads];
     unsigned long long int hits = 0;
@@ -50,7 +50,8 @@ int main(int argc, char** argv){
     clock_gettime(CLOCK_MONOTONIC, &end);
 
     double elapsed = (end.tv_sec - start.tv_sec) + (end.tv_nsec - start.tv_nsec) / 1e9;
-    printf("%.6f,", elapsed);
+    printf("%.6f", elapsed);
+    // printf("la aprox es %f", pi_approx);
 
     return 0;
 }
@@ -63,8 +64,9 @@ void* approx_pi(void* data){
     for(int i=0; i<info->tries; ++i){
         x = rand_r(&seed)*info->factor;
         y = rand_r(&seed)*info->factor;
-        if(x*x + y*y < 1.0)
-            ++(info->hits);
+        info->hits += (x*x + y*y < 1.0);
+        // if(x*x + y*y < 1.0)
+        //     ++(info->hits);
     }
     return NULL;
 }
