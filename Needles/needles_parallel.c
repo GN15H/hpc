@@ -73,6 +73,7 @@ void* approx_pi(void* data){
         theta = rand_r(&seed) * tinfo->theta_factor;
         if(x-(cos(theta)*(tinfo->needle/2)) < 0.0 || x+(cos(theta)*(tinfo->needle/2)) > tinfo->floor)
             ++(tinfo->crosses);
+        // tinfo->crosses += (x-(cos(theta)*(tinfo->needle/2)) < 0.0 || x+(cos(theta)*(tinfo->needle/2)) > tinfo->floor);
     }
     return NULL;
 }
