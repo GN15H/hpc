@@ -30,8 +30,8 @@ int main(int argc, char **argv) {
   int rank, w_size;
   if (argc < 3)
     return -1;
-  srand(time(NULL));
-  // srand(2500);
+  // srand(time(NULL));
+  srand(2500);
   MPI_Init(&argc, &argv);
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
   MPI_Comm_size(MPI_COMM_WORLD, &w_size);
@@ -103,8 +103,8 @@ void master_job(unsigned long long int size, unsigned long long int chunk_size,
     // printf("%lli ", moves[i]);
     sum += moves[i];
   // double speed = sum / (cars * loops);
-  printf("quotient %lli remainder %lli", sum / (cars * loops),
-         sum % (cars * loops));
+  // printf("quotient %lli remainder %lli", sum / (cars * loops),
+  //        sum % (cars * loops));
 }
 
 void slave_job(int rank, int w_size, unsigned long long int loops,
@@ -139,6 +139,11 @@ void slave_job(int rank, int w_size, unsigned long long int loops,
 
     // printf("Rank %i first_pos %i last_pos %i\n", rank, old_arr[0],
     //        old_arr[chunk_size + 1]);
+    if(w_size ==2){
+      old_arr[0] = old_arr[chunk_size];
+      old_arr[chunk_size+1] = old_arr[1];
+      continue;
+    }
     if (rank > 1 && rank < w_size - 1) {
       MPI_Issend(old_arr + 1, 1, MPI_CHAR, rank - 1,
                  NODE_INTERCOMM | NODE_FIRST_POS | i, MPI_COMM_WORLD, &request);
