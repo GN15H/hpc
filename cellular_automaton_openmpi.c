@@ -30,8 +30,8 @@ int main(int argc, char **argv) {
   int rank, w_size;
   if (argc < 3)
     return -1;
-  // srand(time(NULL));
-  srand(2500);
+  srand(time(NULL));
+  // srand(2500);
   MPI_Init(&argc, &argv);
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
   MPI_Comm_size(MPI_COMM_WORLD, &w_size);
@@ -57,7 +57,7 @@ int main(int argc, char **argv) {
   MPI_Barrier(MPI_COMM_WORLD);
   if (rank == 0) {
     end_time = MPI_Wtime();
-    printf("\nTotal program duration: %f seconds\n", end_time - start_time);
+    printf("%f", end_time - start_time);
   }
   MPI_Finalize();
 }
