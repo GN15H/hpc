@@ -82,12 +82,8 @@ void master_job(unsigned long long int size, unsigned long long int chunk_size,
                 unsigned long long int loops, int w_size) {
   char *arr = (char *)calloc(size + 2, sizeof(char));
   unsigned long long int cars = init_arr(arr + 1, size);
-  // printf("original ");
-  // print_arr(arr, size + 2);
   arr[size + 1] = arr[1];
   arr[0] = arr[size];
-  // printf("con el +2 ");
-  // print_arr(arr, size + 2);
   for (unsigned int node = 0; node < w_size - 1; node++) {
     MPI_Send(arr + (node * chunk_size), chunk_size + 2, MPI_CHAR, node + 1,
              MASTER_DISTRIBUTE, MPI_COMM_WORLD);
@@ -100,7 +96,6 @@ void master_job(unsigned long long int size, unsigned long long int chunk_size,
   }
   unsigned long long int sum = 0;
   for (unsigned int i = 0; i < w_size - 1; i++)
-    // printf("%lli ", moves[i]);
     sum += moves[i];
   // double speed = sum / (cars * loops);
   // printf("quotient %lli remainder %lli", sum / (cars * loops),
@@ -116,8 +111,6 @@ void slave_job(int rank, int w_size, unsigned long long int loops,
   MPI_Status status;
   MPI_Recv(old_arr, chunk_size + 2, MPI_CHAR, MASTER, MASTER_DISTRIBUTE,
            MPI_COMM_WORLD, &status);
-  // printf("lo ke llega ");
-  // print_arr(old_arr, chunk_size + 2);
   MPI_Request request;
   bool first_changed = false;
   bool last_changed = false;
@@ -137,8 +130,6 @@ void slave_job(int rank, int w_size, unsigned long long int loops,
     memcpy(old_arr, new_arr, chunk_size + 2);
     memset(new_arr, 0, chunk_size + 2);
 
-    // printf("Rank %i first_pos %i last_pos %i\n", rank, old_arr[0],
-    //        old_arr[chunk_size + 1]);
     if(w_size ==2){
       old_arr[0] = old_arr[chunk_size];
       old_arr[chunk_size+1] = old_arr[1];
@@ -172,8 +163,6 @@ void slave_job(int rank, int w_size, unsigned long long int loops,
       MPI_Recv(old_arr, 1, MPI_CHAR, rank - 1,
                NODE_INTERCOMM | NODE_LAST_POS | i, MPI_COMM_WORLD, &status);
     }
-    // printf("post Rank %i first_pos %i last_pos %i\n", rank, old_arr[0],
-    //        old_arr[chunk_size + 1]);
   }
   MPI_Send(&moves, 1, MPI_UNSIGNED_LONG_LONG, MASTER, MASTER_MERGE,
            MPI_COMM_WORLD);
